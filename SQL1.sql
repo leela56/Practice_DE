@@ -60,4 +60,12 @@ SELECT
 FROM
 	employees;
 
---8.
+--8.Find Employees assigned to multiple projects 
+SELECT employee_id, COUNT(project_id) AS project_count
+FROM employee_projects
+GROUP BY employee_id
+HAVING COUNT(peoject_id) > 1;
+--9.Average of each department
+SELECT department_id, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY department_id;
