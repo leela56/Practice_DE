@@ -11,8 +11,9 @@ INSERT INTO department VALUES
 
 --2.Creating Employee table
 CREATE TABLE employees(
-	eid INT,
-	name VARCHAR(20) UNIQUE,
+	empid INT,
+	fname VARCHAR(20) UNIQUE,
+	lname VARCHAR(20),
 	join_date DATE NOT NULL,
 	salary INT,
 	manager INT,
@@ -21,10 +22,10 @@ CREATE TABLE employees(
 );
 
 INSERT INTO employees VALUES
-	(100, 'Jane', '01/07/2025', 50000, 101),
-	(102, 'Sam', '01/07/2024', 20000, 104),
-	(104, 'John', '01/07/2023', 60000, 105),
-	(105, 'Micahel', '01/07/2022', 8000, 106)
+	(100, 'Jane', 'Smith', '01/07/2025', 50000, 101),
+	(102, 'Sam', 'ith', '01/07/2024', 20000, 104),
+	(104, 'John', 'Doe', '01/07/2023', 60000, 105),
+	(105, 'Micahel', 'Jackson', '01/07/2022', 80000, 106)
 
 --3.How to select 2nd highest salary ?
 
@@ -42,3 +43,29 @@ SELECT *
 FROM employees
 WHERE salary > (SELECT AVG(salary) FROM employees);
 
+ALTER TABLE employees
+ADD dob DATE
+ADD hire_date DATE
+
+--6.Calculating the age of employee based from date of birth
+SELECT empid
+	TIMESTAMP(YEAR, dob, CURDATE()) AS age
+FROM employees;
+
+--7.Number of years each employee has been working in the company
+SELECT 
+	empid, 
+	hire_date,
+	TIMESTAMPDIFF(YEAR, hire_date, CURDATE()) AS years_working
+FROM
+	employees;
+
+--8.Find Employees assigned to multiple projects 
+SELECT employee_id, COUNT(project_id) AS project_count
+FROM employee_projects
+GROUP BY employee_id
+HAVING COUNT(peoject_id) > 1;
+--9.Average of each department
+SELECT department_id, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY department_id;
