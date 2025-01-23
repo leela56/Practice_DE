@@ -69,3 +69,4 @@ HAVING COUNT(peoject_id) > 1;
 SELECT department_id, AVG(salary) AS avg_salary
 FROM employees
 GROUP BY department_id;
+--10.
